@@ -12,7 +12,5 @@ public record BookingDTO(
         @NotNull(message = "number of participants is mandatory")
         int seatsNumber,
         @NotNull(message = "User Id is mandatory")
-        UUID user,
-        @NotEmpty(message = "Date is mandatory")
-        LocalDate data) {
+        UUID user) {
 }

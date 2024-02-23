@@ -1,6 +1,5 @@
 package com.cosminpetrea.event_planning.exceptions;
 
-import org.aspectj.weaver.ast.Not;
 
 import java.util.UUID;
 

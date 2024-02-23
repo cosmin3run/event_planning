@@ -1,0 +1,60 @@
+package com.cosminpetrea.event_planning.services;
+
+import com.cosminpetrea.event_planning.entities.User;
+import com.cosminpetrea.event_planning.enums.Role;
+import com.cosminpetrea.event_planning.exceptions.BadRequestException;
+import com.cosminpetrea.event_planning.exceptions.UnauthorizedException;
+import com.cosminpetrea.event_planning.payloads.UserDTO;
+import com.cosminpetrea.event_planning.repositories.UsersDAO;
+import com.cosminpetrea.event_planning.security.JWTTools;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import java.io.IOException;
+
+@Service
+public class AuthService {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private JWTTools jwtTools;
+
+    @Autowired
+    private UsersDAO usersDAO;
+
+    @Autowired
+    PasswordEncoder bcrypt;
+
+    public String authenticateEmployeeAndGenerateToken(UserDTO payload) {
+        User user = userService.findByEmail(payload.email());
+        if (user.getPassword().equals(payload.password())){
+            return jwtTools.createToken(user);
+        }else {
+            throw new UnauthorizedException("Email or pssw has been wrongfully added");
+        }
+    }
+
+
+    public User saveUser(@Validated UserDTO payload) {
+        usersDAO.findByEmail(payload.email()).ifPresent(user -> {
+            throw new BadRequestException("Email '" + payload.email() + "' is already in use");
+        });
+        usersDAO.findByUsername(payload.username()).ifPresent(user -> {
+            throw new BadRequestException("Username '" + payload.username() + "' is already in use");
+        });
+        User newUser = new User();
+        newUser.setUsername(payload.name());
+        newUser.setName(payload.name());
+        newUser.setSurname(payload.name());
+        newUser.setEmail(payload.name());
+        newUser.setPassword(payload.password());
+        newUser.setRole(Role.USER);
+        return usersDAO.save(newUser);
+
+
+    }
+}

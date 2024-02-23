@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class Event {
     private UUID id;
     private String title;
     private String description;
-    private String eventDate;
+    private LocalDate eventDate;
     private String location;
     private int maxParticipants;
 
