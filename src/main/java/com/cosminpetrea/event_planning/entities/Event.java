@@ -23,7 +23,7 @@ public class Event {
     private String description;
     private String eventDate;
     private String location;
-    private String maxParticipants;
+    private int maxParticipants;
 
 
     @OneToMany(mappedBy = "event")
@@ -31,7 +31,7 @@ public class Event {
     private List<Booking> bookings;
 
 
-    public Event(String title, String description, String eventDate, String location, String maxParticipants, List<Booking> bookings) {
+    public Event(String title, String description, String eventDate, String location, int maxParticipants, List<Booking> bookings) {
         this.title = title;
         this.description = description;
         this.eventDate = eventDate;
