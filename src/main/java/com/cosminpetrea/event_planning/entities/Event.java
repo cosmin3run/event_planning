@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,9 +22,10 @@ public class Event {
     private UUID id;
     private String title;
     private String description;
-    private String eventDate;
+    @Column(name = "event_date")
+    private LocalDate eventDate;
     private String location;
-    private String maxParticipants;
+    private int maxParticipants;
 
 
     @OneToMany(mappedBy = "event")
@@ -31,7 +33,7 @@ public class Event {
     private List<Booking> bookings;
 
 
-    public Event(String title, String description, String eventDate, String location, String maxParticipants, List<Booking> bookings) {
+    public Event(String title, String description, LocalDate eventDate, String location, int maxParticipants, List<Booking> bookings) {
         this.title = title;
         this.description = description;
         this.eventDate = eventDate;
