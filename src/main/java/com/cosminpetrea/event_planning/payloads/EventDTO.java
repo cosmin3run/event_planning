@@ -13,7 +13,7 @@ public record EventDTO(@NotEmpty(message = "Title is mandatory")
                        @Size(min = 3, max = 50, message = "description must have at least 3 to maximum 50 characters")
                        String description,
                        @NotEmpty(message = "Date is mandatory")
-                       LocalDate date,
+                       LocalDate eventDate,
                        @NotEmpty(message = "Location is mandatory")
                        @Size(min = 3, max = 30, message = "Location must have at least 3 characters and max 30")
                        String location,

@@ -24,18 +24,18 @@ public class EventService {
     public Event saveEvent(EventDTO payload){
         Event newEvent = new Event();
         newEvent.setTitle(payload.title());
-        newEvent.setEventDate(payload.date());
+        newEvent.setEventDate(payload.eventDate());
         newEvent.setDescription(payload.description());
         newEvent.setMaxParticipants(payload.maxParticipants());
         newEvent.setLocation(payload.location());
         return eventsDAO.save(newEvent);
     }
 
-    public Event findByIdAndUpdate(UUID id, @Validated EventDTO payload){
+    public Event findByIdAndUpdate(UUID id, EventDTO payload){
         Event found = this.findById(id);
 
         found.setTitle(payload.title());
-        found.setEventDate(payload.date());
+        found.setEventDate(payload.eventDate());
         found.setDescription(payload.description());
         found.setMaxParticipants(payload.maxParticipants());
         found.setLocation(payload.location());

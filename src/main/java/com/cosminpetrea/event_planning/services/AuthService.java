@@ -5,6 +5,7 @@ import com.cosminpetrea.event_planning.enums.Role;
 import com.cosminpetrea.event_planning.exceptions.BadRequestException;
 import com.cosminpetrea.event_planning.exceptions.UnauthorizedException;
 import com.cosminpetrea.event_planning.payloads.UserDTO;
+import com.cosminpetrea.event_planning.payloads.login.UserLoginDTO;
 import com.cosminpetrea.event_planning.repositories.UsersDAO;
 import com.cosminpetrea.event_planning.security.JWTTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,11 @@ public class AuthService {
     private UsersDAO usersDAO;
 
     @Autowired
-    PasswordEncoder bcrypt;
+    private PasswordEncoder bcrypt;
 
-    public String authenticateEmployeeAndGenerateToken(UserDTO payload) {
+    public String authenticateUserAndGenerateToken(UserLoginDTO payload) {
         User user = userService.findByEmail(payload.email());
-        if (user.getPassword().equals(payload.password())){
+        if (bcrypt.matches(payload.password(),user.getPassword())){
             return jwtTools.createToken(user);
         }else {
             throw new UnauthorizedException("Email or pssw has been wrongfully added");
@@ -39,7 +40,7 @@ public class AuthService {
     }
 
 
-    public User saveUser(@Validated UserDTO payload) {
+    public User saveUser(UserDTO payload) {
         usersDAO.findByEmail(payload.email()).ifPresent(user -> {
             throw new BadRequestException("Email '" + payload.email() + "' is already in use");
         });
@@ -47,11 +48,11 @@ public class AuthService {
             throw new BadRequestException("Username '" + payload.username() + "' is already in use");
         });
         User newUser = new User();
-        newUser.setUsername(payload.name());
+        newUser.setUsername(payload.username());
         newUser.setName(payload.name());
-        newUser.setSurname(payload.name());
-        newUser.setEmail(payload.name());
-        newUser.setPassword(payload.password());
+        newUser.setSurname(payload.surname());
+        newUser.setEmail(payload.email());
+        newUser.setPassword(bcrypt.encode(payload.password()));
         newUser.setRole(Role.USER);
         return usersDAO.save(newUser);
 

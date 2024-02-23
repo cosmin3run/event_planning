@@ -22,6 +22,7 @@ public class Event {
     private UUID id;
     private String title;
     private String description;
+    @Column(name = "event_date")
     private LocalDate eventDate;
     private String location;
     private int maxParticipants;
@@ -32,7 +33,7 @@ public class Event {
     private List<Booking> bookings;
 
 
-    public Event(String title, String description, String eventDate, String location, int maxParticipants, List<Booking> bookings) {
+    public Event(String title, String description, LocalDate eventDate, String location, int maxParticipants, List<Booking> bookings) {
         this.title = title;
         this.description = description;
         this.eventDate = eventDate;
