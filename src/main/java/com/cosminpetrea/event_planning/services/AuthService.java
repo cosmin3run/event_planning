@@ -55,7 +55,5 @@ public class AuthService {
         newUser.setPassword(bcrypt.encode(payload.password()));
         newUser.setRole(Role.USER);
         return usersDAO.save(newUser);
-
-
     }
 }

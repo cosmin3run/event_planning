@@ -2,7 +2,10 @@ package com.cosminpetrea.event_planning.services;
 
 
 import com.cosminpetrea.event_planning.entities.User;
+import com.cosminpetrea.event_planning.enums.Role;
+import com.cosminpetrea.event_planning.exceptions.BadRequestException;
 import com.cosminpetrea.event_planning.exceptions.NotFoundExceptions;
+import com.cosminpetrea.event_planning.payloads.RoleDTO;
 import com.cosminpetrea.event_planning.payloads.UserDTO;
 import com.cosminpetrea.event_planning.repositories.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,18 @@ public class UserService {
         found.setSurname(payload.surname());
         found.setEmail(payload.email());
         found.setPassword(payload.password());
+        return usersDAO.save(found);
+    }
+
+    public User findByIdAndChangeRole(UUID id,String role) {
+        User found = this.findById(id);
+        if (role.toLowerCase().equals("admin")) {
+            found.setRole(Role.ADMIN);
+        } else if (role.toLowerCase().equals("user")) {
+            found.setRole(Role.USER);
+        } else {
+            throw new BadRequestException("You can choose BASIC or ADMIN");
+        }
         return usersDAO.save(found);
     }
 

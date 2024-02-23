@@ -25,5 +25,5 @@ public class UserController {
         return user;
     }
     @GetMapping("/me/bookings")
-    public List<Booking> getBookingsUser(@AuthenticationPrincipal User utente){return utente.getBookings();}
+    public List<Booking> getBookingsUser(@AuthenticationPrincipal User user){return user.getBookings();}
 }

@@ -38,7 +38,6 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
     private List<Booking> bookings;
 
     public User(String username, String name, String surname, String email, String password, Role role, List<Booking> bookings) {
@@ -55,6 +54,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
