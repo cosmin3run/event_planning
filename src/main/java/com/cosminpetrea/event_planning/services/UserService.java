@@ -44,7 +44,7 @@ public class UserService {
         } else if (role.toLowerCase().equals("user")) {
             found.setRole(Role.USER);
         } else {
-            throw new BadRequestException("You can choose BASIC or ADMIN");
+            throw new BadRequestException("You can choose ADMIN or USER");
         }
         return usersDAO.save(found);
     }
